@@ -16,9 +16,16 @@ console.log(`Loaded ${commands.size} commands`);
 async function handleCommand(msg) {
   const savedGuild = await guilds.get(msg.guild.id);
   const prefix = savedGuild.general.prefix;
-
+  
   if (!msg.content.startsWith(prefix))
     return false;
+
+  const blacklisted = savedGuild.general.blacklistedChannelIds
+    .includes(msg.channel.id);
+  if (blacklisted) {
+    msg.channel.send(`🔒 Commands cannot be executed in this channel.`);
+    return true;
+  }
 
   const name = msg.content
     .split(' ')[0]

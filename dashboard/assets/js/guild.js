@@ -1,16 +1,15 @@
 $('.tabs a, #sidebarExtension h4').on('click', function() {
   $('.tabs a').removeClass('active');
-
-  const selected = $(this);
-  selected.addClass('active');
-
-  const id = $(selected).attr('id');
-  setModule(id);
+  setModule($(this).attr('id'));
 });
 
-function setModule(moduleId) {
+function setModule(name) {
   $('.module').hide();
-  $(`#${moduleId}Module`).show();
+  $(`#${name}Module`).show();
+  $(`#${name}`).addClass('active');
+
+  const newURL = `${window.location.protocol}//${window.location.host}${window.location.pathname}?module=${name}`;
+  window.history.pushState({ path: newURL }, '', newURL);
 }
 
-setModule('overview');
+setModule(module || 'overview');

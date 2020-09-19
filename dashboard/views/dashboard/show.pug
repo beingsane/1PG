@@ -4,6 +4,9 @@ html(lang='en')
     include ../includes/header.pug
     
     script(src='/js/guild.js', defer)
+    script(defer).
+      let module = '#{module}';
+
     script(src='/js/sidebar.js', defer)
     link(rel='stylesheet', href='/css/sidebar.css')
   body
