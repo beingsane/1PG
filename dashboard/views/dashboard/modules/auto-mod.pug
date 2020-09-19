@@ -1,27 +1,6 @@
-section#autoModModule.module.px-5
-  .form-group.mt-5
-    .row.text-center
-      .col-3
-        .border.rounded.m-3.p-3
-          p.uppercase
-            i.fas.fa-user-ninja
-            strong.ml-1 Owner
-          p.mb-0 #{guild.owner.user.tag}
-      .col-3
-        .border.rounded.m-3.p-3
-          p.uppercase
-            i.fas.fa-user-alt
-            strong.ml-1 Members
-          p.mb-0 #{guild.memberCount}
-      .col-3
-        .border.rounded.m-3.p-3
-          p.uppercase
-            i.fas.fa-at
-            strong.ml-1 Roles
-          p.mb-0 #{guild.roles.cache.size}
-      .col-3
-        .border.rounded.m-3.p-3
-          p.uppercase
-            i.fas.fa-hashtag
-            strong.ml-1 Channels
-          p.mb-0 #{guild.channels.cache.size}
+form(action='/servers/' + guild.id + '/autoMod?_method=PUT', method='POST')
+  section#autoModModule.module.container.px-5
+    .jumbotron.bg-transparent.pb-0
+      h1.display-3.text-center Auto Mod
+    .form-group.mt-5
+      p Nothing here yet...

@@ -22,10 +22,7 @@ async function handleCommand(msg) {
 
   const blacklisted = savedGuild.general.blacklistedChannelIds
     .includes(msg.channel.id);
-  if (blacklisted) {
-    msg.channel.send(`🔒 Commands cannot be executed in this channel.`);
-    return true;
-  }
+  if (blacklisted) return false;
 
   const name = msg.content
     .split(' ')[0]

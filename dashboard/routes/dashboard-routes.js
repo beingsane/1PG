@@ -9,24 +9,16 @@ router.get('/dashboard', (req, res) => res.render('dashboard/index'));
 
 router.get('/servers/:id', validateGuild, async (req, res) => {
   const id = req.params.id;
-
   const guild = bot.guilds.cache.get(id);
-  const parentChannels = guild.channels.cache
-    .array()
-    .filter(c => c.type === 'category')
-    .map(c => ({
-      name: c.name,
-      id: c.id,
-      channels: guild.channels.cache
-        .filter(c2 => c2.type === 'text' && c2.parentID === c.id)
-        .array()
-    }));
 
   res.render('dashboard/show', {
-    guild: bot.guilds.cache.get(id),
+    guild,
     savedGuild: await guilds.get(id),
-    parentChannels,
-    module: req.query.module
+    module: req.query.module,
+    textChannels: guild.channels.cache
+      .array()
+      .filter(c => c.type === 'text')
+      .sort((a, b) => a.name > b.name ? 1 : -1)
   });
 });
 
