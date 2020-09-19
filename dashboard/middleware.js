@@ -1,16 +1,13 @@
-const authClient = require('./auth-client');
-const bot = require('../bot');
+const sessions = require('./sessions');
 
 module.exports.updateGuilds = async (req, res, next) => {
   try {
     const key = res.cookies.get('key');
     if (key) {
-      const authGuilds = await authClient.getGuilds(key);
-      res.locals.guilds = getManageableGuilds(authGuilds);
+      const { guilds } = await sessions.get(key);
+      res.locals.guilds = guilds;
     }
   } finally {
-    // FIXME: temporary fix
-    res.locals.guilds = res.locals.guilds ?? [];
     next();
   }
 };
@@ -18,29 +15,24 @@ module.exports.updateGuilds = async (req, res, next) => {
 module.exports.updateUser = async (req, res, next) => {
   try {
     const key = res.cookies.get('key');
-    if (key)
-      res.locals.user = await authClient.getUser(key);
+    if (key) {
+      const { authUser } = await sessions.get(key);
+      res.locals.user = authUser;
+    }
   } finally {
     next();
   }
 };
 
+module.exports.validateGuild = async (req, res, next) => {
+  const exists = res.locals.guilds.some(g => g.id === req.params.id);
+  (exists)
+    ? next()
+    : res.render('errors/404');
+};
+
 module.exports.validateUser = async (req, res, next) => {
-  res.locals.user
+  (res.locals.user)
     ? next()
     : res.render('errors/401');
 };
-
-function getManageableGuilds(authGuilds) {
-  const guilds = [];
-  for (const id of authGuilds.keys()) {
-    const isManager = authGuilds
-      .get(id).permissions
-      .includes('MANAGE_GUILD');
-    const guild = bot.guilds.cache.get(id);
-    if (!guild || !isManager) continue;
-
-    guilds.push(guild);
-  }
-  return guilds;
-}

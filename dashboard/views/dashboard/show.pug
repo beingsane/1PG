@@ -15,7 +15,8 @@ html(lang='en')
             img.round(src=guild.iconURL({ dynamic: true, size: 128 }), alt=guild.name)
           else
             p.abbr #{guild.nameAcronym}
-        h4.pt-2 #{guild.name}
+        a(href='/servers/' + guild.id)
+          h4.pt-2 #{guild.name}
       .tabs.navbar-nav
         .category Modules
         a(href='#') #[i.fas.fa-gavel.pr-1.text-muted] Auto-mod
@@ -25,5 +26,30 @@ html(lang='en')
 
     include ../includes/navbar.pug
     
-    .jumbotron.text-center.bg-transparent
-      h1.display-3 #{guild.name}
+    section#overview.px-5
+      .form-group.mt-5
+        .row.text-center
+          .col-3
+            .border.rounded.m-3.p-3
+              p.uppercase
+                i.fas.fa-user-ninja
+                strong.ml-1 Owner
+              p.mb-0 #{guild.owner.user.tag}
+          .col-3
+            .border.rounded.m-3.p-3
+              p.uppercase
+                i.fas.fa-user-alt
+                strong.ml-1 Members
+              p.mb-0 #{guild.memberCount}
+          .col-3
+            .border.rounded.m-3.p-3
+              p.uppercase
+                i.fas.fa-at
+                strong.ml-1 Roles
+              p.mb-0 #{guild.roles.cache.size}
+          .col-3
+            .border.rounded.m-3.p-3
+              p.uppercase
+                i.fas.fa-hashtag
+                strong.ml-1 Channels
+              p.mb-0 #{guild.channels.cache.size}

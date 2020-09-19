@@ -9,15 +9,15 @@ nav.navbar.navbar-expand-lg.navbar-light
         span.pl-1 Commands
     .navbar-nav.ml-auto
       if user
-        .dropdown.mr-2
+        .dropdown
           .dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
             img.user-avatar.round(src=user.avatarUrl(32))
             span.pl-2 #{user.username}
-          .dropdown-menu
-            a.dropdown-item(href='/dashboard') Dashboard
+          .dropdown-menu.dropdown-menu-right
+            a.dropdown-item(href='/dashboard') #[i.fas.fa-cogs.text-muted.pl-1] Dashboard
             hr
-            a.dropdown-item(href='/logout') Logout
+            a.dropdown-item(href='/logout') #[i.fas.fa-user-slash.text-muted.pl-1] Logout
       else
-        a.nav-link(href='/login') 
+        a.nav-link(onclick)
           i.fas.fa-sign-in-alt
           span.pl-1 Login
