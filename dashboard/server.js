@@ -1,6 +1,8 @@
 const cookies = require('cookies');
 const express = require('express');
 const middleware = require('./middleware');
+const methodOverride = require('method-override');
+const bodyParser = require('body-parser');
 
 const authRoutes = require('./routes/auth-routes');
 const dashboardRoutes = require('./routes/dashboard-routes');
@@ -12,6 +14,8 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'pug');
 
 app.use(cookies.express('a', 'b', 'c'));
+app.use(methodOverride('_method'));
+app.use(bodyParser.urlencoded({ encoded: true }));
 
 app.use(express.static(`${__dirname}/assets`));
 app.locals.basedir = `${__dirname}/assets`;
